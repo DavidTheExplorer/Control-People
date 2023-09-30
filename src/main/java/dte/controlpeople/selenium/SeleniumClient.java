@@ -7,7 +7,6 @@ import java.util.List;
 import dte.controlpeople.advice.AskPeopleAdvice;
 import dte.controlpeople.client.AskPeopleClient;
 import dte.controlpeople.question.AskPeopleQuestion;
-import dte.controlpeople.question.SimpleQuestion;
 
 public class SeleniumClient implements AskPeopleClient
 {
@@ -20,7 +19,7 @@ public class SeleniumClient implements AskPeopleClient
 		//scrape the question's data
 		List<AskPeopleAdvice> advices = scrapeAdvices();
 
-		return new SimpleQuestion(id, advices);
+		return new AskPeopleQuestion(id, advices);
 	}
 
 	private List<AskPeopleAdvice> scrapeAdvices()
