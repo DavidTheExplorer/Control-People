@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import dte.controlpeople.advice.AdviceType;
+import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.question.AskPeopleQuestion;
 
 class AskPeopleSelenium 
@@ -41,7 +42,7 @@ class AskPeopleSelenium
 		navigateTo(AskPeopleQuestion.getURL(id));
 		
 		if(!doesQuestionExist())
-			throw new IllegalArgumentException(String.format("Could not find a question with the id \"%s\"", id));
+			throw new AskPeopleException(String.format("Could not find a question with the id \"%s\"", id));
 	}
 
 	public static void navigateTo(String url) 

@@ -1,5 +1,6 @@
 package dte.controlpeople.client;
 
+import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.question.AskPeopleQuestion;
 import dte.controlpeople.selenium.SeleniumClient;
 
@@ -14,7 +15,7 @@ public interface AskPeopleClient
 	 * 
 	 * @param id The unique identifier of the question to return.
 	 * @return The question found.
-	 * @throws IllegalArgumentException if there is no such question.
+	 * @throws AskPeopleException if there is no such question.
 	 */
 	AskPeopleQuestion getQuestionByID(String id);
 	

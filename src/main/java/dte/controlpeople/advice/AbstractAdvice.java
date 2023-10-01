@@ -1,5 +1,7 @@
 package dte.controlpeople.advice;
 
+import dte.controlpeople.exceptions.AskPeopleException;
+
 public abstract class AbstractAdvice implements AskPeopleAdvice
 {
 	private final String commentorName;
@@ -27,6 +29,6 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	protected void verifyType(AdviceType expectedType, String errorMessage) 
 	{
 		if(getType() != expectedType)
-			throw new UnsupportedOperationException(errorMessage);
+			throw new AskPeopleException(errorMessage);
 	}
 }
