@@ -1,31 +1,86 @@
 package dte.controlpeople.selenium;
 
 import static java.util.stream.Collectors.toList;
+import static org.openqa.selenium.PageLoadStrategy.EAGER;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import dte.controlpeople.advice.AskPeopleAdvice;
 import dte.controlpeople.client.AskPeopleClient;
+import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.question.AskPeopleQuestion;
 
 public class SeleniumClient implements AskPeopleClient
 {
+	public static final WebDriver DRIVER = new ChromeDriver(getEagerLoadingOption());
+
+	static
+	{
+		//register a shutdown hook that quits the driver
+		Runtime.getRuntime().addShutdownHook(new Thread(DRIVER::quit));
+	}
+
 	@Override
 	public AskPeopleQuestion getQuestionByID(String id) 
 	{
 		//go to the question's page
-		AskPeopleSelenium.navigateToQuestion(id);
-		
+		DRIVER.get(AskPeopleQuestion.getURL(id));
+
+		if(!doesQuestionExist())
+			throw new AskPeopleException(String.format("Could not find a question with the id \"%s\"", id));
+
 		//scrape the question's data
 		List<AskPeopleAdvice> advices = scrapeAdvices();
 
 		return new AskPeopleQuestion(id, advices);
 	}
 
-	private List<AskPeopleAdvice> scrapeAdvices()
+
+	/*
+	 * Selenium
+	 */
+	private static ChromeOptions getEagerLoadingOption() 
 	{
-		return AskPeopleSelenium.getAdviceElements().stream()
+		ChromeOptions options = new ChromeOptions();
+
+		//Using this option drastically improves the scraping performance, from an average of 10 seconds to get a question's advices -> to just 3.
+		options.setPageLoadStrategy(EAGER);
+
+		return options;
+	}
+	
+	private static List<AskPeopleAdvice> scrapeAdvices()
+	{
+		List<WebElement> adviceElements = DRIVER.findElements(By.xpath("//ul[@id='ul_advices']/li"));
+
+		return adviceElements.stream()
 				.map(SeleniumAdvice::fromWebElement)
 				.collect(toList());
+	}
+
+	private static boolean doesQuestionExist() 
+	{
+		//for some reason, this div appears both when the question is deleted, but also when the ID doesn't exist
+		return DRIVER.findElements(By.xpath(".//div[@id='div_deleted_question']")).isEmpty();
+	}
+	
+	public static void click(WebElement element) 
+	{
+		try 
+		{
+			element.click();
+		}
+		catch(ElementClickInterceptedException exception) 
+		{
+			((JavascriptExecutor) SeleniumClient.DRIVER).executeScript("arguments[0].click();", element);
+		}
 	}
 }
