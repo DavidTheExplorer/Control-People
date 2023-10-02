@@ -1,10 +1,12 @@
 package dte.controlpeople.question;
 
 import static com.google.common.base.Predicates.alwaysTrue;
+import static com.google.common.base.Predicates.not;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
@@ -14,6 +16,8 @@ public class AdviceSelector
 	private final AskPeopleQuestion question;
 	private Predicate<AskPeopleAdvice> filter = alwaysTrue();
 	private boolean includeResponses = false;
+	
+	private static final Pattern GUEST_NAME_PATTERN = Pattern.compile(".+אורחת?");
 	
 	//there's no point to make this public
 	AdviceSelector(AskPeopleQuestion question) 
@@ -42,6 +46,11 @@ public class AdviceSelector
 	{
 		this.includeResponses = true;
 		return this;
+	}
+	
+	public AdviceSelector excludingGuests() 
+	{
+		return filter(not(advice -> GUEST_NAME_PATTERN.matcher(advice.getCommentorName()).matches()));
 	}
 	
 	/**
