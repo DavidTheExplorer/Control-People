@@ -52,7 +52,7 @@ public class AdviceSelector
 	 */
 	public AdviceSelector filter(Predicate<AskPeopleAdvice> filter) 
 	{
-		this.filter = filter;
+		this.filter = this.filter.and(filter);
 		return this;
 	}
 	
