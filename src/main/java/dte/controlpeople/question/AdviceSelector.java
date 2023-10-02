@@ -27,13 +27,16 @@ public class AdviceSelector
 	
 	/**
 	 * Filters out all advices that were not written by the provided {@code commentor}.
+	 * <p>
+	 * Guest advices are also excluded to avoid selecting fake ones.
 	 * 
 	 * @param commentor The commentor whose advices are to be returned.
 	 * @return The same instance for chaining purposes.
 	 */
 	public AdviceSelector byUser(String commentor) 
 	{
-		return filter(advice -> advice.getCommentorName().contains(commentor));
+		return excludingGuests()
+				.filter(advice -> advice.getCommentorName().equals(commentor));
 	}
 	
 	/**

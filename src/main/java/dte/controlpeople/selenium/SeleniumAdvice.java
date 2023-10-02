@@ -78,7 +78,10 @@ public class SeleniumAdvice extends AbstractAdvice
 		boolean isGuestComment = nameContainer.findElements(By.tagName("a")).isEmpty();
 		WebElement nameElement = isGuestComment ? nameContainer : nameContainer.findElement(By.tagName("a"));
 
-		return nameElement.getAttribute("innerText");
+		String nameAndAge = nameElement.getAttribute("innerText");
+		
+		//return just the name part
+		return nameAndAge.substring(0, nameAndAge.indexOf(','));
 	}
 	
 	private static WebElement getDislikeButton(WebElement adviceElement) 
