@@ -6,11 +6,13 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 {
 	private final String commentorName;
 	private final AdviceType type;
+	private final boolean authorGuest;
 	
-	protected AbstractAdvice(String commentorName, AdviceType type)
+	protected AbstractAdvice(String commentorName, AdviceType type, boolean authorGuest)
 	{
 		this.commentorName = commentorName;
 		this.type = type;
+		this.authorGuest = authorGuest;
 	}
 
 	@Override
@@ -23,6 +25,12 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	public AdviceType getType() 
 	{
 		return this.type;
+	}
+	
+	@Override
+	public boolean isAuthorGuest() 
+	{
+		return this.authorGuest;
 	}
 	
 	//helper method that currently only serves the abstract getResponses()

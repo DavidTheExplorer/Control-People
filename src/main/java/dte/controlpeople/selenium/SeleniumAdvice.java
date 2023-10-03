@@ -17,19 +17,22 @@ public class SeleniumAdvice extends AbstractAdvice
 {
 	private final WebElement element;
 
-	private SeleniumAdvice(WebElement element, String commentorName, AdviceType type)
+	private SeleniumAdvice(WebElement element, String commentorName, AdviceType type, boolean authorGuest)
 	{
-		super(commentorName, type);
+		super(commentorName, type, authorGuest);
 		
 		this.element = element;
 	}
 
 	public static SeleniumAdvice fromWebElement(WebElement adviceElement) 
 	{
-		String commentorName = getCommentorName(adviceElement);
+		WebElement nameContainer = adviceElement.findElement(By.xpath(".//div[@class='details']/div/h3"));
+
+		boolean authorGuest = nameContainer.findElements(By.tagName("a")).isEmpty(); //clicking a registered user's name leads to his profile
+		String commentorName = getCommentorName(nameContainer, authorGuest);
 		AdviceType type = getAdviceType(adviceElement);
 
-		return new SeleniumAdvice(adviceElement, commentorName, type);
+		return new SeleniumAdvice(adviceElement, commentorName, type, authorGuest);
 	}
 
 	public WebElement getElement() 
@@ -72,18 +75,15 @@ public class SeleniumAdvice extends AbstractAdvice
 	/*
 	 * Selenium 
 	 */
-	private static String getCommentorName(WebElement adviceElement) 
+	private static String getCommentorName(WebElement adviceElement, boolean authorGuest)
 	{
-		WebElement nameContainer = adviceElement.findElement(By.xpath(".//div[@class='details']/div/h3"));
-		boolean isGuestComment = nameContainer.findElements(By.tagName("a")).isEmpty();
-		WebElement nameElement = isGuestComment ? nameContainer : nameContainer.findElement(By.tagName("a"));
-
+		WebElement nameElement = authorGuest ? adviceElement : adviceElement.findElement(By.tagName("a"));
 		String nameAndAge = nameElement.getAttribute("innerText");
-		
+
 		//return just the name part
 		return nameAndAge.substring(0, nameAndAge.indexOf(','));
 	}
-	
+
 	private static WebElement getDislikeButton(WebElement adviceElement) 
 	{
 		return adviceElement.findElement(By.xpath(".//div[@class='commands']/span[contains(@id, 'against')]"));
