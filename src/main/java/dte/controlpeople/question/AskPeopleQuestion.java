@@ -10,12 +10,13 @@ import dte.controlpeople.advice.AskPeopleAdvice;
  */
 public class AskPeopleQuestion
 {
-	private final String id;
+	private final String id, content;
 	private final List<AskPeopleAdvice> advices;
 	
-	public AskPeopleQuestion(String id, List<AskPeopleAdvice> advices) 
+	public AskPeopleQuestion(String id, String content, List<AskPeopleAdvice> advices)
 	{
 		this.id = id;
+		this.content = content;
 		this.advices = advices;
 	}
 	
@@ -28,7 +29,17 @@ public class AskPeopleQuestion
 	{
 		return this.id;
 	}
-	
+
+	/**
+	 * Returns the content of this question.
+	 *
+	 * @return The content of this question.
+	 */
+	public String getContent()
+	{
+		return this.content;
+	}
+
 	/**
 	 * Returns the advices that were written for this question.
 	 * Use {@link #selectAdvices()} in order to include their responses, or apply filtering instructions.
