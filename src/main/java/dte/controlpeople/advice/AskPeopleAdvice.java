@@ -66,7 +66,7 @@ public interface AskPeopleAdvice
 	default List<AskPeopleAdvice> getResponsesBy(String commentorName) 
 	{
 		return getResponses().stream()
-				.filter(response -> response.getCommentorName().contains(commentorName))
+				.filter(response -> response.getCommentorName().equals(commentorName))
 				.collect(toList());
 	}
 }
