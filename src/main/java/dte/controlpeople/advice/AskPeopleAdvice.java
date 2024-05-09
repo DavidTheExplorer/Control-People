@@ -1,7 +1,5 @@
 package dte.controlpeople.advice;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.List;
 
 import dte.controlpeople.adviceselector.ResponseSelector;
@@ -67,17 +65,4 @@ public interface AskPeopleAdvice
 	 * @see #canBeDisliked()
 	 */
 	void dislike();
-	
-	/**
-	 * Returns the responses to this advice sent by the commentor identified by their {@code name}.
-	 * 
-	 * @param commentorName The commentor whose responses are desired.
-	 * @return The filtered response list.
-	 */
-	default List<AskPeopleAdvice> getResponsesBy(String commentorName) 
-	{
-		return getResponses().stream()
-				.filter(response -> response.getCommentorName().equals(commentorName))
-				.collect(toList());
-	}
 }
