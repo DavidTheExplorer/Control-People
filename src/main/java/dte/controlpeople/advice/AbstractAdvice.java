@@ -6,13 +6,13 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 {
 	private final String commentorName;
 	private final AdviceType type;
-	private final boolean authorGuest;
+	private final AuthorType authorType;
 	
-	protected AbstractAdvice(String commentorName, AdviceType type, boolean authorGuest)
+	protected AbstractAdvice(String commentorName, AdviceType type, AuthorType authorType)
 	{
 		this.commentorName = commentorName;
 		this.type = type;
-		this.authorGuest = authorGuest;
+		this.authorType = authorType;
 	}
 
 	@Override
@@ -26,13 +26,13 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	{
 		return this.type;
 	}
-	
+
 	@Override
-	public boolean isAuthorGuest() 
+	public AuthorType getAuthorType()
 	{
-		return this.authorGuest;
+		return this.authorType;
 	}
-	
+
 	//helper method that currently only serves the abstract getResponses()
 	protected void verifyType(AdviceType expectedType, String errorMessage) 
 	{

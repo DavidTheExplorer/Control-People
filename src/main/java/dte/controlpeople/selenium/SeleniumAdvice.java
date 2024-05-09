@@ -2,10 +2,14 @@ package dte.controlpeople.selenium;
 
 import static dte.controlpeople.advice.AdviceType.RESPONSE;
 import static dte.controlpeople.advice.AdviceType.ROOT;
+import static dte.controlpeople.advice.AuthorType.*;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import dte.controlpeople.advice.AuthorType;
+import dte.controlpeople.client.AskPeopleClient;
+import dte.controlpeople.question.AskPeopleQuestion;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -17,9 +21,9 @@ public class SeleniumAdvice extends AbstractAdvice
 {
 	private final WebElement element;
 
-	private SeleniumAdvice(WebElement element, String commentorName, AdviceType type, boolean authorGuest)
+	private SeleniumAdvice(WebElement element, String commentorName, AdviceType type, AuthorType authorType)
 	{
-		super(commentorName, type, authorGuest);
+		super(commentorName, type, authorType);
 		
 		this.element = element;
 	}
@@ -28,11 +32,11 @@ public class SeleniumAdvice extends AbstractAdvice
 	{
 		WebElement nameContainer = adviceElement.findElement(By.xpath(".//div[@class='details']/div/h3"));
 
-		boolean authorGuest = nameContainer.findElements(By.tagName("a")).isEmpty(); //clicking a registered user's name leads to his profile
-		String commentorName = getCommentorName(nameContainer, authorGuest);
+		AuthorType authorType = getAuthorType(nameContainer);
+		String commentorName = getCommentorName(nameContainer, authorType);
 		AdviceType type = getAdviceType(adviceElement);
 
-		return new SeleniumAdvice(adviceElement, commentorName, type, authorGuest);
+		return new SeleniumAdvice(adviceElement, commentorName, type, authorType);
 	}
 
 	public WebElement getElement() 
@@ -75,13 +79,37 @@ public class SeleniumAdvice extends AbstractAdvice
 	/*
 	 * Selenium 
 	 */
-	private static String getCommentorName(WebElement adviceElement, boolean authorGuest)
+	private static AuthorType getAuthorType(WebElement nameContainer)
 	{
-		WebElement nameElement = authorGuest ? adviceElement : adviceElement.findElement(By.tagName("a"));
-		String nameAndAge = nameElement.getAttribute("innerText");
+		//clicking a registered user's name leads to his profile
+		if(!nameContainer.findElements(By.tagName("a")).isEmpty())
+			return USER;
 
-		//return just the name part
-		return nameAndAge.substring(0, nameAndAge.indexOf(','));
+		if(!nameContainer.findElements(By.tagName("span")).isEmpty())
+			return ORIGINAL_POSTER;
+
+		return GUEST;
+	}
+
+	private static String getCommentorName(WebElement nameContainer, AuthorType authorType)
+	{
+		String fullName = nameContainer.getAttribute("innerText");
+
+		switch(authorType)
+		{
+			case GUEST:
+			case USER:
+				//reputable users don't have an age - just their name(no comma for their age)
+				int endIndex = fullName.contains(",") ? fullName.indexOf(',') : fullName.length();
+
+				return fullName.substring(0, endIndex);
+
+			case ORIGINAL_POSTER:
+				return fullName.substring(0, fullName.indexOf('(') -1);
+
+			default:
+				throw new IllegalStateException("Could not determine the type of the author!");
+		}
 	}
 
 	private static WebElement getDislikeButton(WebElement adviceElement) 

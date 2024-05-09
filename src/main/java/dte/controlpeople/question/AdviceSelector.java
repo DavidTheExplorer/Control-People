@@ -1,7 +1,7 @@
 package dte.controlpeople.question;
 
 import static com.google.common.base.Predicates.alwaysTrue;
-import static com.google.common.base.Predicates.not;
+import static dte.controlpeople.advice.AuthorType.GUEST;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
+import dte.controlpeople.advice.AuthorType;
 
 public class AdviceSelector
 {
@@ -32,7 +33,7 @@ public class AdviceSelector
 	 */
 	public AdviceSelector byUser(String commentor) 
 	{
-		return excludingGuests()
+		return excludingBy(GUEST)
 				.filter(advice -> advice.getCommentorName().equals(commentor));
 	}
 	
@@ -48,9 +49,9 @@ public class AdviceSelector
 		return this;
 	}
 	
-	public AdviceSelector excludingGuests() 
+	public AdviceSelector excludingBy(AuthorType authorType)
 	{
-		return filter(not(AskPeopleAdvice::isAuthorGuest));
+		return filter(advice -> advice.getAuthorType() != authorType);
 	}
 	
 	/**

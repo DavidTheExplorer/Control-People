@@ -37,11 +37,11 @@ public interface AskPeopleAdvice
 	List<AskPeopleAdvice> getResponses();
 	
 	/**
-	 * Returns whether this advice was written by a guest.
+	 * Returns the type of this advice's author.
 	 * 
-	 * @return Whether this advice was written by a guest.
+	 * @return the type of this advice's author.
 	 */
-	boolean isAuthorGuest();
+	AuthorType getAuthorType();
 	
 	/**
 	 * Returns whether the dislike button of this advice is enabled(could be various reasons why not).
