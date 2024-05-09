@@ -4,21 +4,21 @@ import dte.controlpeople.exceptions.AskPeopleException;
 
 public abstract class AbstractAdvice implements AskPeopleAdvice
 {
-	private final String commentorName;
+	private final String authorName;
 	private final AdviceType type;
 	private final AuthorType authorType;
 	
-	protected AbstractAdvice(String commentorName, AdviceType type, AuthorType authorType)
+	protected AbstractAdvice(String authorName, AdviceType type, AuthorType authorType)
 	{
-		this.commentorName = commentorName;
+		this.authorName = authorName;
 		this.type = type;
 		this.authorType = authorType;
 	}
 
 	@Override
-	public String getCommentorName() 
+	public String getAuthorName()
 	{
-		return this.commentorName;
+		return this.authorName;
 	}
 
 	@Override

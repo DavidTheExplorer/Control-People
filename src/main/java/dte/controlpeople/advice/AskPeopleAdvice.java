@@ -16,10 +16,10 @@ public interface AskPeopleAdvice
 	/**
 	 * Returns the name of the person(or guest) who sent this advice. 
 	 * 
-	 * @return The name of this advice's commentor.
+	 * @return The name of this advice's author.
 	 * @apiNote This will one day return a proper {@code AskPeopleUser}.
 	 */
-	String getCommentorName();
+	String getAuthorName();
 	
 	/**
 	 * Returns whether this advice is normal, or just a response to another advice.

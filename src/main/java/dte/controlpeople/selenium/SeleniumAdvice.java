@@ -21,9 +21,9 @@ public class SeleniumAdvice extends AbstractAdvice
 {
 	private final WebElement element;
 
-	private SeleniumAdvice(WebElement element, String commentorName, AdviceType type, AuthorType authorType)
+	private SeleniumAdvice(WebElement element, String authorName, AdviceType type, AuthorType authorType)
 	{
-		super(commentorName, type, authorType);
+		super(authorName, type, authorType);
 		
 		this.element = element;
 	}
@@ -33,10 +33,10 @@ public class SeleniumAdvice extends AbstractAdvice
 		WebElement nameContainer = adviceElement.findElement(By.xpath(".//div[@class='details']/div/h3"));
 
 		AuthorType authorType = getAuthorType(nameContainer);
-		String commentorName = getCommentorName(nameContainer, authorType);
+		String authorName = getAuthorName(nameContainer, authorType);
 		AdviceType type = getAdviceType(adviceElement);
 
-		return new SeleniumAdvice(adviceElement, commentorName, type, authorType);
+		return new SeleniumAdvice(adviceElement, authorName, type, authorType);
 	}
 
 	public WebElement getElement() 
@@ -71,7 +71,7 @@ public class SeleniumAdvice extends AbstractAdvice
 	@Override
 	public String toString() 
 	{
-		return String.format("SeleniumAdvice [commentor=%s, type=%s]", getCommentorName(), getType());
+		return String.format("SeleniumAdvice [author=%s, type=%s]", getAuthorName(), getType());
 	}
 	
 	
@@ -91,7 +91,7 @@ public class SeleniumAdvice extends AbstractAdvice
 		return GUEST;
 	}
 
-	private static String getCommentorName(WebElement nameContainer, AuthorType authorType)
+	private static String getAuthorName(WebElement nameContainer, AuthorType authorType)
 	{
 		String fullName = nameContainer.getAttribute("innerText");
 

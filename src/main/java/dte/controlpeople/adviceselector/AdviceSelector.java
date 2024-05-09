@@ -37,17 +37,17 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
     }
 
     /**
-     * Filters out all advices that were not written by the provided {@code commentor}.
+     * Filters out all advices that were not written by the provided user.
      * <p>
      * Guest advices are also excluded to avoid selecting fake ones.
      *
-     * @param commentor The commentor whose advices are to be returned.
+     * @param username The name of the user whose advices are to be returned.
      * @return The same instance for chaining purposes.
      */
-    public SELF byUser(String commentor)
+    public SELF byUser(String username)
     {
         return excludingBy(GUEST)
-                .filter(advice -> advice.getCommentorName().equals(commentor));
+                .filter(advice -> advice.getAuthorName().equals(username));
     }
 
     /**
