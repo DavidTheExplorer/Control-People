@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
 import dte.controlpeople.advice.AuthorType;
@@ -61,20 +60,6 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
         return obtainAdvices().stream()
                 .filter(this.filter)
                 .collect(toList());
-    }
-
-    /**
-     * Returns a {@link Stream} of the found advices, this method is a shortcut that's essentially equivalent to writing:
-     * <pre>
-     * {@code
-     * Stream<AskPeopleAdvice> stream = selector.get().stream();
-     * }</pre>
-     *
-     * @return A stream of selected advices.
-     */
-    public Stream<AskPeopleAdvice> stream()
-    {
-        return get().stream();
     }
 
     @SuppressWarnings("unchecked")
