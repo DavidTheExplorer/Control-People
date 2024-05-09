@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
+import dte.controlpeople.adviceselector.QuestionAdviceSelector;
 
 /**
  * Represents a question within the <a href="http://askpeople.co.il">AskPeople</a> website.
@@ -53,13 +54,13 @@ public class AskPeopleQuestion
 	}
 	
 	/**
-	 * Selects the relevant advices of this question; This can include their responses or narrow them down for a specific use-case.
+	 * Selects specific advices. This can include their responses or narrow them down for a specific use-case.
 	 * 
 	 * @return A customizable selector for the advices of this question.
 	 */
-	public AdviceSelector selectAdvices() 
+	public QuestionAdviceSelector selectAdvices()
 	{
-		return new AdviceSelector(this);
+		return new QuestionAdviceSelector(this);
 	}
 	
 	/**

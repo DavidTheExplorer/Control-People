@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import dte.controlpeople.adviceselector.ResponseSelector;
 import dte.controlpeople.question.AskPeopleQuestion;
 
 /**
@@ -35,6 +36,13 @@ public interface AskPeopleAdvice
 	 * @return The response list of this advice.
 	 */
 	List<AskPeopleAdvice> getResponses();
+
+	/**
+	 * Selects specific responses using common use-case filters.
+	 *
+	 * @return A customizable selector for the responses of this advice.
+	 */
+	ResponseSelector selectResponses();
 	
 	/**
 	 * Returns the type of this advice's author.
