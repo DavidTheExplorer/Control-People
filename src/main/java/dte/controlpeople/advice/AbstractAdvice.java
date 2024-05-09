@@ -1,6 +1,5 @@
 package dte.controlpeople.advice;
 
-import dte.controlpeople.adviceselector.ResponseSelector;
 import dte.controlpeople.exceptions.AskPeopleException;
 
 public abstract class AbstractAdvice implements AskPeopleAdvice
@@ -32,12 +31,6 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	public AuthorType getAuthorType()
 	{
 		return this.authorType;
-	}
-
-	@Override
-	public ResponseSelector selectResponses()
-	{
-		return new ResponseSelector(this);
 	}
 
 	//helper method that currently only serves the abstract getResponses()

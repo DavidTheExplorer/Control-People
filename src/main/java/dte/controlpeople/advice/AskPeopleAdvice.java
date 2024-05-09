@@ -42,7 +42,10 @@ public interface AskPeopleAdvice
 	 *
 	 * @return A customizable selector for the responses of this advice.
 	 */
-	ResponseSelector selectResponses();
+	default ResponseSelector selectResponses()
+	{
+		return new ResponseSelector(this);
+	}
 	
 	/**
 	 * Returns the type of this advice's author.
