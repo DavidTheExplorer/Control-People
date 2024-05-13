@@ -14,10 +14,9 @@ import dte.controlpeople.question.AskPeopleQuestion;
 public interface AskPeopleAdvice
 {
 	/**
-	 * Returns the name of the person(or guest) who sent this advice. 
+	 * Returns the name of the user(or guest) who sent this advice.
 	 * 
 	 * @return The name of this advice's author.
-	 * @apiNote This will one day return a proper {@code AskPeopleUser}.
 	 */
 	String getAuthorName();
 	
@@ -29,14 +28,15 @@ public interface AskPeopleAdvice
 	AdviceType getType();
 	
 	/**
-	 * Returns the response list of this advice.
+	 * Returns the responses people wrote for this advice;
+	 * Use {@link #selectResponses()} to easily filter the list.
 	 * 
-	 * @return The response list of this advice.
+	 * @return This advice's response list.
 	 */
 	List<AskPeopleAdvice> getResponses();
 
 	/**
-	 * Selects specific responses using common use-case filters.
+	 * Works like {@link #getResponses()}, but this method is used to apply common filters.
 	 *
 	 * @return A customizable selector for the responses of this advice.
 	 */
@@ -46,14 +46,14 @@ public interface AskPeopleAdvice
 	}
 	
 	/**
-	 * Returns the type of this advice's author.
+	 * Returns whether the author of this advice is a user or guest.
 	 * 
 	 * @return the type of this advice's author.
 	 */
 	AuthorType getAuthorType();
 	
 	/**
-	 * Returns whether the dislike button of this advice is enabled(could be various reasons why not).
+	 * Returns whether this advice can be disliked. Usually returns false when the advice was already disliked.
 	 * 
 	 * @return Whether this advice can be disliked or not.
 	 */

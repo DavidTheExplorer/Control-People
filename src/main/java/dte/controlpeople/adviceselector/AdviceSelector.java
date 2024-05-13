@@ -10,14 +10,23 @@ import java.util.function.Predicate;
 import dte.controlpeople.advice.AskPeopleAdvice;
 import dte.controlpeople.advice.AuthorType;
 
+/**
+ * This class describes a process of selecting specific {@link AskPeopleAdvice}s from a source.
+ * For example: Selecting the responses to an advice.
+ * <p>
+ * The design is of a recursive builder - Concrete selectors can add their own filters.
+ *
+ * @param <SELF> The class of the implementation class.
+ */
 public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
 {
     private Predicate<AskPeopleAdvice> filter = alwaysTrue();
 
     /**
-     * Sets a filter that determines what advices will be returned.
+     * Adds a filter that determines which advices will be returned.
      *
-     * @param filter The filter to use.
+     * @param filter The filter to apply.
+     * @apiNote This does not override the current filter, but adds the provided {@code filter} on top of it.
      * @return The same instance for chaining purposes.
      */
     public SELF filter(Predicate<AskPeopleAdvice> filter)
@@ -27,7 +36,7 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
     }
 
     /**
-     * Excludes advices that were written by authors of the provided type.
+     * Excludes advices that were written by authors from the provided type.
      *
      * @return The same instance for chaining purposes.
      */
@@ -37,9 +46,7 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
     }
 
     /**
-     * Filters out all advices that were not written by the provided user.
-     * <p>
-     * Guest advices are also excluded to avoid selecting fake ones.
+     * Selects only advices that were written by the provided user.
      *
      * @param username The name of the user whose advices are to be returned.
      * @return The same instance for chaining purposes.
@@ -51,9 +58,9 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
     }
 
     /**
-     * Returns the found advices after filtering them if requested.
+     * Obtains and filters a list of advices from the source, and returns them.
      *
-     * @return The list of advices.
+     * @return The selected advices.
      */
     public List<AskPeopleAdvice> get()
     {
@@ -68,5 +75,10 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
         return (SELF) this;
     }
 
+    /**
+     * Returns the list of advices which {@link #get()} will use as base.
+     *
+     * @return The original list of advices.
+     */
     protected abstract List<AskPeopleAdvice> obtainAdvices();
 }

@@ -5,6 +5,9 @@ import dte.controlpeople.advice.AskPeopleAdvice;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@link AdviceSelector} that selects the responses to an {@link AskPeopleAdvice}.
+ */
 public class ResponseSelector extends AdviceSelector<ResponseSelector>
 {
     private final AskPeopleAdvice advice;

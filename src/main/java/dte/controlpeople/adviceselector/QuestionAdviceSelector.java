@@ -19,9 +19,9 @@ public class QuestionAdviceSelector extends AdviceSelector<QuestionAdviceSelecto
     }
 
     /**
-     * Includes all responses.
-     * Pay attention that any filtering instructions are applied <b>only after</b> the responses are added.
+     * Includes the responses for the selected advices.
      *
+     * @apiNote Filters are applied on the responses as well!
      * @return The same instance for chaining purposes.
      */
     public QuestionAdviceSelector withResponses()

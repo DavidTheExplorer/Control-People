@@ -23,7 +23,7 @@ public class AskPeopleQuestion
 	
 	/**
 	 * Returns the unique identifier of this question.
-	 * 
+	 *
 	 * @return The id of this question.
 	 */
 	public String getID() 
@@ -42,11 +42,10 @@ public class AskPeopleQuestion
 	}
 
 	/**
-	 * Returns the advices that were written for this question.
-	 * Use {@link #selectAdvices()} in order to include their responses, or apply filtering instructions.
+	 * Returns the advices people wrote for this question.
+	 * Use {@link #selectAdvices()} to include the responses or easily filter the list.
 	 * 
 	 * @return This question's advice list.
-	 * @see #selectAdvices()
 	 */
 	public List<AskPeopleAdvice> getAdvices()
 	{
@@ -54,14 +53,16 @@ public class AskPeopleQuestion
 	}
 	
 	/**
-	 * Selects specific advices. This can include their responses or narrow them down for a specific use-case.
-	 * 
+	 * Works like {@link #getAdvices()}, but this method is used to apply common filters or include the (filtered) advices' responses.
+	 *
 	 * @return A customizable selector for the advices of this question.
 	 */
 	public QuestionAdviceSelector selectAdvices()
 	{
 		return new QuestionAdviceSelector(this);
 	}
+
+
 	
 	/**
 	 * Given a question's ID, this method builds the corresponding URL that can be visited by the browser.

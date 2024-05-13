@@ -24,7 +24,7 @@ public class SeleniumClient implements AskPeopleClient
 
 	static
 	{
-		//register a shutdown hook that quits the driver
+		//quit the driver on shutdown
 		Runtime.getRuntime().addShutdownHook(new Thread(DRIVER::quit));
 	}
 
@@ -44,10 +44,6 @@ public class SeleniumClient implements AskPeopleClient
 		return new AskPeopleQuestion(id, content, advices);
 	}
 
-
-	/*
-	 * Selenium
-	 */
 	private static ChromeOptions getEagerLoadingOption() 
 	{
 		ChromeOptions options = new ChromeOptions();
