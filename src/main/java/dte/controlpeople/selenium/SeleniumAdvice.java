@@ -8,8 +8,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 
 import dte.controlpeople.advice.AuthorType;
-import dte.controlpeople.client.AskPeopleClient;
-import dte.controlpeople.question.AskPeopleQuestion;
+import dte.controlpeople.exceptions.AskPeopleException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -59,7 +58,8 @@ public class SeleniumAdvice extends AbstractAdvice
 	@Override
 	public List<AskPeopleAdvice> getResponses() 
 	{
-		verifyType(ROOT, "Cannot get the responses of an advice that is a response!");
+		if(getType() != ROOT)
+			throw new AskPeopleException("Cannot get the responses of an advice that is a response!");
 		
 		List<WebElement> responseElements = this.element.findElements(By.xpath(".//ul[@class='responses']/li"));
 		

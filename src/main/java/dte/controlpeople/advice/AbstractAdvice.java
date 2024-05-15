@@ -1,7 +1,5 @@
 package dte.controlpeople.advice;
 
-import dte.controlpeople.exceptions.AskPeopleException;
-
 public abstract class AbstractAdvice implements AskPeopleAdvice
 {
 	private final String authorName;
@@ -31,12 +29,5 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	public AuthorType getAuthorType()
 	{
 		return this.authorType;
-	}
-
-	//helper method that currently only serves the abstract getResponses()
-	protected void verifyType(AdviceType expectedType, String errorMessage) 
-	{
-		if(getType() != expectedType)
-			throw new AskPeopleException(errorMessage);
 	}
 }
