@@ -1,26 +1,24 @@
 package dte.controlpeople.selenium;
 
-import static dte.controlpeople.advice.AdviceType.RESPONSE;
-import static dte.controlpeople.advice.AdviceType.ROOT;
-import static dte.controlpeople.advice.AuthorType.*;
+import static dte.controlpeople.advice.AskPeopleAdvice.AuthorType.*;
+import static dte.controlpeople.advice.AskPeopleAdvice.Type.RESPONSE;
+import static dte.controlpeople.advice.AskPeopleAdvice.Type.ROOT;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
-import dte.controlpeople.advice.AuthorType;
 import dte.controlpeople.exceptions.AskPeopleException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import dte.controlpeople.advice.AbstractAdvice;
-import dte.controlpeople.advice.AdviceType;
 import dte.controlpeople.advice.AskPeopleAdvice;
 
 public class SeleniumAdvice extends AbstractAdvice
 {
 	private final WebElement element;
 
-	private SeleniumAdvice(WebElement element, String authorName, AdviceType type, AuthorType authorType)
+	private SeleniumAdvice(WebElement element, String authorName, Type type, AuthorType authorType)
 	{
 		super(authorName, type, authorType);
 		
@@ -33,7 +31,7 @@ public class SeleniumAdvice extends AbstractAdvice
 
 		AuthorType authorType = getAuthorType(nameContainer);
 		String authorName = getAuthorName(nameContainer, authorType);
-		AdviceType type = getAdviceType(adviceElement);
+		Type type = getAdviceType(adviceElement);
 
 		return new SeleniumAdvice(adviceElement, authorName, type, authorType);
 	}
@@ -117,7 +115,7 @@ public class SeleniumAdvice extends AbstractAdvice
 		return adviceElement.findElement(By.xpath(".//div[@class='commands']/span[contains(@id, 'against')]"));
 	}
 
-	private static AdviceType getAdviceType(WebElement adviceElement) 
+	private static Type getAdviceType(WebElement adviceElement)
 	{
 		WebElement parentOfParent = adviceElement.findElement(By.xpath("../.."));
 

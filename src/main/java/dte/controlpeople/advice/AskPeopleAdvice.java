@@ -25,7 +25,7 @@ public interface AskPeopleAdvice
 	 *
 	 * @return The type of this advice.
 	 */
-	AdviceType getType();
+	Type getType();
 	
 	/**
 	 * Returns the responses people wrote for this advice;
@@ -65,4 +65,31 @@ public interface AskPeopleAdvice
 	 * @see #canBeDisliked()
 	 */
 	void dislike();
+
+
+
+	/**
+	 * Represents the type of an {@link AskPeopleAdvice}.
+	 */
+	enum Type
+	{
+		/**
+		 * Represents a normal advice to a question.
+		 */
+		ROOT,
+
+		/**
+		 * Represents an advice that was written as a response to another advice.
+		 */
+		RESPONSE;
+	}
+
+
+
+	enum AuthorType
+	{
+		GUEST,
+		USER,
+		ORIGINAL_POSTER;
+	}
 }

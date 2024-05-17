@@ -3,10 +3,10 @@ package dte.controlpeople.advice;
 public abstract class AbstractAdvice implements AskPeopleAdvice
 {
 	private final String authorName;
-	private final AdviceType type;
+	private final Type type;
 	private final AuthorType authorType;
 	
-	protected AbstractAdvice(String authorName, AdviceType type, AuthorType authorType)
+	protected AbstractAdvice(String authorName, Type type, AuthorType authorType)
 	{
 		this.authorName = authorName;
 		this.type = type;
@@ -20,7 +20,7 @@ public abstract class AbstractAdvice implements AskPeopleAdvice
 	}
 
 	@Override
-	public AdviceType getType() 
+	public Type getType()
 	{
 		return this.type;
 	}

@@ -1,14 +1,14 @@
 package dte.controlpeople.adviceselector;
 
 import static com.google.common.base.Predicates.alwaysTrue;
-import static dte.controlpeople.advice.AuthorType.GUEST;
+import static dte.controlpeople.advice.AskPeopleAdvice.AuthorType.GUEST;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
-import dte.controlpeople.advice.AuthorType;
+import dte.controlpeople.advice.AskPeopleAdvice.AuthorType;
 
 /**
  * This class describes a process of selecting specific {@link AskPeopleAdvice}s from a source.
