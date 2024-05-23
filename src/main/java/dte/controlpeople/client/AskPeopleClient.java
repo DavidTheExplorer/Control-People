@@ -2,7 +2,6 @@ package dte.controlpeople.client;
 
 import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.question.AskPeopleQuestion;
-import dte.controlpeople.selenium.SeleniumClient;
 
 /**
  * Provides objects that represent things in the <a href="http://askpeople.co.il">AskPeople</a> website.

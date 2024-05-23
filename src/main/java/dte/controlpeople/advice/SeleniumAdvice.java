@@ -1,4 +1,4 @@
-package dte.controlpeople.selenium;
+package dte.controlpeople.advice;
 
 import static dte.controlpeople.advice.AskPeopleAdvice.AuthorType.*;
 import static dte.controlpeople.advice.AskPeopleAdvice.Type.RESPONSE;
@@ -8,11 +8,9 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 
 import dte.controlpeople.exceptions.AskPeopleException;
+import dte.controlpeople.client.SeleniumClient;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import dte.controlpeople.advice.AbstractAdvice;
-import dte.controlpeople.advice.AskPeopleAdvice;
 
 public class SeleniumAdvice extends AbstractAdvice
 {

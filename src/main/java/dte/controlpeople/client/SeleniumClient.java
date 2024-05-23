@@ -1,10 +1,11 @@
-package dte.controlpeople.selenium;
+package dte.controlpeople.client;
 
 import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.PageLoadStrategy.EAGER;
 
 import java.util.List;
 
+import dte.controlpeople.advice.SeleniumAdvice;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,7 +15,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
-import dte.controlpeople.client.AskPeopleClient;
 import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.question.AskPeopleQuestion;
 
