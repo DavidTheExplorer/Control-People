@@ -20,7 +20,7 @@ import dte.controlpeople.question.AskPeopleQuestion;
 
 public class SeleniumClient implements AskPeopleClient
 {
-	public static final WebDriver DRIVER = new ChromeDriver(getEagerLoadingOption());
+	private static final WebDriver DRIVER = new ChromeDriver(getEagerLoadingOption());
 
 	static
 	{
