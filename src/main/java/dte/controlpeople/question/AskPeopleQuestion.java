@@ -5,6 +5,7 @@ import java.util.List;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
 import dte.controlpeople.adviceselector.QuestionAdviceSelector;
+import dte.controlpeople.author.AskPeopleAuthor;
 
 /**
  * Represents a question within the <a href="http://askpeople.co.il">AskPeople</a> website.
@@ -12,12 +13,14 @@ import dte.controlpeople.adviceselector.QuestionAdviceSelector;
 public class AskPeopleQuestion
 {
 	private final String id, content;
+	private final AskPeopleAuthor author;
 	private final List<AskPeopleAdvice> advices;
 	
-	public AskPeopleQuestion(String id, String content, List<AskPeopleAdvice> advices)
+	public AskPeopleQuestion(String id, String content, AskPeopleAuthor author, List<AskPeopleAdvice> advices)
 	{
 		this.id = id;
 		this.content = content;
+		this.author = author;
 		this.advices = advices;
 	}
 	
@@ -39,6 +42,16 @@ public class AskPeopleQuestion
 	public String getContent()
 	{
 		return this.content;
+	}
+
+	/**
+	 * Returns the author of this question.
+	 *
+	 * @return The author of this question.
+	 */
+	public AskPeopleAuthor getAuthor()
+	{
+		return this.author;
 	}
 
 	/**

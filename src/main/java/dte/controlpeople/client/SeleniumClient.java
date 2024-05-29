@@ -6,6 +6,8 @@ import static org.openqa.selenium.PageLoadStrategy.EAGER;
 import java.util.List;
 
 import dte.controlpeople.advice.SeleniumAdvice;
+import dte.controlpeople.author.AskPeopleAuthor;
+import dte.controlpeople.author.AskPeopleAuthor.Type;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,9 +41,10 @@ public class SeleniumClient implements AskPeopleClient
 
 		//scrape the question's data
 		String content = scrapeCurrentQuestionContent();
+		AskPeopleAuthor author = scrapeAuthor();
 		List<AskPeopleAdvice> advices = scrapeAdvices();
 
-		return new AskPeopleQuestion(id, content, advices);
+		return new AskPeopleQuestion(id, content, author, advices);
 	}
 
 	private static ChromeOptions getEagerLoadingOption() 
@@ -61,6 +64,15 @@ public class SeleniumClient implements AskPeopleClient
 		return adviceElements.stream()
 				.map(SeleniumAdvice::fromWebElement)
 				.collect(toList());
+	}
+
+	private AskPeopleAuthor scrapeAuthor()
+	{
+		String nameLine = DRIVER.findElement(By.xpath(".//div[@id='div_question_content']/h2")).getText();
+		String nameWithAge = nameLine.split("\\|")[0];
+		String name = nameWithAge.split(" ")[0];
+
+		return new AskPeopleAuthor(name, Type.ORIGINAL_POSTER);
 	}
 
 	private static boolean doesQuestionExist() 

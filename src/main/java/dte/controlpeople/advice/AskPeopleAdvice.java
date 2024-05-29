@@ -3,6 +3,7 @@ package dte.controlpeople.advice;
 import java.util.List;
 
 import dte.controlpeople.adviceselector.ResponseSelector;
+import dte.controlpeople.author.AskPeopleAuthor;
 import dte.controlpeople.question.AskPeopleQuestion;
 
 /**
@@ -14,18 +15,18 @@ import dte.controlpeople.question.AskPeopleQuestion;
 public interface AskPeopleAdvice
 {
 	/**
-	 * Returns the name of the user(or guest) who sent this advice.
-	 * 
-	 * @return The name of this advice's author.
-	 */
-	String getAuthorName();
-	
-	/**
 	 * Returns whether this advice is normal, or just a response to another advice.
 	 *
 	 * @return The type of this advice.
 	 */
 	Type getType();
+
+	/**
+	 * Returns the author of this advice.
+	 *
+	 * @return The author of this advice.
+	 */
+	AskPeopleAuthor getAuthor();
 	
 	/**
 	 * Returns the responses people wrote for this advice;
@@ -44,13 +45,6 @@ public interface AskPeopleAdvice
 	{
 		return new ResponseSelector(this);
 	}
-	
-	/**
-	 * Returns whether the author of this advice is a user or guest.
-	 * 
-	 * @return the type of this advice's author.
-	 */
-	AuthorType getAuthorType();
 	
 	/**
 	 * Returns whether this advice can be disliked. Usually returns false when the advice was already disliked.
@@ -82,14 +76,5 @@ public interface AskPeopleAdvice
 		 * Represents an advice that was written as a response to another advice.
 		 */
 		RESPONSE;
-	}
-
-
-
-	enum AuthorType
-	{
-		GUEST,
-		USER,
-		ORIGINAL_POSTER;
 	}
 }

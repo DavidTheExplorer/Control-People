@@ -1,33 +1,27 @@
 package dte.controlpeople.advice;
 
+import dte.controlpeople.author.AskPeopleAuthor;
+
 public abstract class AbstractAdvice implements AskPeopleAdvice
 {
-	private final String authorName;
 	private final Type type;
-	private final AuthorType authorType;
-	
-	protected AbstractAdvice(String authorName, Type type, AuthorType authorType)
+	private final AskPeopleAuthor author;
+
+	protected AbstractAdvice(Type type, AskPeopleAuthor author)
 	{
-		this.authorName = authorName;
 		this.type = type;
-		this.authorType = authorType;
+		this.author = author;
 	}
 
 	@Override
-	public String getAuthorName()
+	public AskPeopleAuthor getAuthor()
 	{
-		return this.authorName;
+		return this.author;
 	}
 
 	@Override
 	public Type getType()
 	{
 		return this.type;
-	}
-
-	@Override
-	public AuthorType getAuthorType()
-	{
-		return this.authorType;
 	}
 }

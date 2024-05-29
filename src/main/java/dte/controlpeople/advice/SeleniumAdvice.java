@@ -1,12 +1,13 @@
 package dte.controlpeople.advice;
 
-import static dte.controlpeople.advice.AskPeopleAdvice.AuthorType.*;
 import static dte.controlpeople.advice.AskPeopleAdvice.Type.RESPONSE;
 import static dte.controlpeople.advice.AskPeopleAdvice.Type.ROOT;
+import static dte.controlpeople.author.AskPeopleAuthor.Type.*;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import dte.controlpeople.author.AskPeopleAuthor;
 import dte.controlpeople.exceptions.AskPeopleException;
 import dte.controlpeople.client.SeleniumClient;
 import org.openqa.selenium.By;
@@ -16,9 +17,9 @@ public class SeleniumAdvice extends AbstractAdvice
 {
 	private final WebElement element;
 
-	private SeleniumAdvice(WebElement element, String authorName, Type type, AuthorType authorType)
+	private SeleniumAdvice(WebElement element, Type type, AskPeopleAuthor author)
 	{
-		super(authorName, type, authorType);
+		super(type, author);
 		
 		this.element = element;
 	}
@@ -27,11 +28,11 @@ public class SeleniumAdvice extends AbstractAdvice
 	{
 		WebElement nameContainer = adviceElement.findElement(By.xpath(".//div[@class='details']/div/h3"));
 
-		AuthorType authorType = getAuthorType(nameContainer);
+		AskPeopleAuthor.Type authorType = getAuthorType(nameContainer);
 		String authorName = getAuthorName(nameContainer, authorType);
 		Type type = getAdviceType(adviceElement);
 
-		return new SeleniumAdvice(adviceElement, authorName, type, authorType);
+		return new SeleniumAdvice(adviceElement, type, new AskPeopleAuthor(authorName, authorType));
 	}
 
 	public WebElement getElement() 
@@ -67,7 +68,7 @@ public class SeleniumAdvice extends AbstractAdvice
 	@Override
 	public String toString() 
 	{
-		return String.format("SeleniumAdvice [author=%s, type=%s]", getAuthorName(), getType());
+		return String.format("SeleniumAdvice [author=%s, type=%s]", getAuthor().getName(), getType());
 	}
 	
 	
@@ -75,11 +76,11 @@ public class SeleniumAdvice extends AbstractAdvice
 	/*
 	 * Selenium 
 	 */
-	private static AuthorType getAuthorType(WebElement nameContainer)
+	private static AskPeopleAuthor.Type getAuthorType(WebElement nameContainer)
 	{
 		//clicking a registered user's name leads to his profile
 		if(!nameContainer.findElements(By.tagName("a")).isEmpty())
-			return USER;
+			return REGISTERED_USER;
 
 		if(!nameContainer.findElements(By.tagName("span")).isEmpty())
 			return ORIGINAL_POSTER;
@@ -87,14 +88,14 @@ public class SeleniumAdvice extends AbstractAdvice
 		return GUEST;
 	}
 
-	private static String getAuthorName(WebElement nameContainer, AuthorType authorType)
+	private static String getAuthorName(WebElement nameContainer, AskPeopleAuthor.Type authorType)
 	{
 		String fullName = nameContainer.getAttribute("innerText");
 
 		switch(authorType)
 		{
 			case GUEST:
-			case USER:
+			case REGISTERED_USER:
 				//reputable users don't have an age - just their name(no comma for their age)
 				int endIndex = fullName.contains(",") ? fullName.indexOf(',') : fullName.length();
 

@@ -1,14 +1,14 @@
 package dte.controlpeople.adviceselector;
 
 import static com.google.common.base.Predicates.alwaysTrue;
-import static dte.controlpeople.advice.AskPeopleAdvice.AuthorType.GUEST;
+import static dte.controlpeople.author.AskPeopleAuthor.Type.GUEST;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 import dte.controlpeople.advice.AskPeopleAdvice;
-import dte.controlpeople.advice.AskPeopleAdvice.AuthorType;
+import dte.controlpeople.author.AskPeopleAuthor;
 
 /**
  * This class describes a process of selecting specific {@link AskPeopleAdvice}s from a source.
@@ -40,9 +40,9 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
      *
      * @return The same instance for chaining purposes.
      */
-    public SELF excludingBy(AuthorType authorType)
+    public SELF excludingBy(AskPeopleAuthor.Type authorType)
     {
-        return filter(advice -> advice.getAuthorType() != authorType);
+        return filter(advice -> advice.getAuthor().getType() != authorType);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class AdviceSelector<SELF extends AdviceSelector<SELF>>
     public SELF byUser(String username)
     {
         return excludingBy(GUEST)
-                .filter(advice -> advice.getAuthorName().equals(username));
+                .filter(advice -> advice.getAuthor().getName().equals(username));
     }
 
     /**
