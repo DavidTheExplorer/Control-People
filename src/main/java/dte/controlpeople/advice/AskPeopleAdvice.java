@@ -47,18 +47,32 @@ public interface AskPeopleAdvice
 	}
 	
 	/**
-	 * Returns whether this advice can be disliked. Usually returns false when the advice was already disliked.
-	 * 
-	 * @return Whether this advice can be disliked or not.
+	 * Likes this advice. If this advice cannot be liked, nothing happens.
+	 *
+	 * @see #canBeLiked()
 	 */
-	boolean canBeDisliked();
-	
+	void like();
+
 	/**
 	 * Dislikes this advice. If this advice cannot be disliked, nothing happens.
 	 * 
 	 * @see #canBeDisliked()
 	 */
 	void dislike();
+
+	/**
+	 * Returns whether this advice can be liked. Usually returns false when the advice was already liked.
+	 *
+	 * @return Whether this advice can be liked or not.
+	 */
+	boolean canBeLiked();
+	
+	/**
+	 * Returns whether this advice can be disliked. Usually returns false when the advice was already disliked.
+	 * 
+	 * @return Whether this advice can be disliked or not.
+	 */
+	boolean canBeDisliked();
 
 
 

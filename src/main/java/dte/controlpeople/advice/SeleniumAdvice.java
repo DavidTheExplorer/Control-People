@@ -41,9 +41,9 @@ public class SeleniumAdvice extends AbstractAdvice
 	}
 
 	@Override
-	public boolean canBeDisliked() 
+	public void like()
 	{
-		return isEnabled(getDislikeButton(this.element));
+		SeleniumClient.click(getLikeButton(this.element));
 	}
 
 	@Override
@@ -52,6 +52,20 @@ public class SeleniumAdvice extends AbstractAdvice
 		SeleniumClient.click(getDislikeButton(this.element));
 	}
 	
+	@Override
+	public boolean canBeLiked()
+	{
+		return isEnabled(getLikeButton(this.element));
+	}
+
+	@Override
+	public boolean canBeDisliked() 
+	{
+		return isEnabled(getDislikeButton(this.element));
+	}
+
+
+
 	@Override
 	public List<AskPeopleAdvice> getResponses() 
 	{
@@ -112,6 +126,11 @@ public class SeleniumAdvice extends AbstractAdvice
 	private static WebElement getDislikeButton(WebElement adviceElement) 
 	{
 		return adviceElement.findElement(By.xpath(".//div[@class='commands']/span[contains(@id, 'against')]"));
+	}
+
+	private static WebElement getLikeButton(WebElement adviceElement)
+	{
+		return adviceElement.findElement(By.xpath(".//div[@class='commands']/span[contains(@id, 'for')]"));
 	}
 
 	private static Type getAdviceType(WebElement adviceElement)
