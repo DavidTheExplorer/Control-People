@@ -31,8 +31,9 @@ public class SeleniumAdvice extends AbstractAdvice
 		AskPeopleAuthor.Type authorType = getAuthorType(nameContainer);
 		String authorName = getAuthorName(nameContainer, authorType);
 		Type type = getAdviceType(adviceElement);
+		int authorAge = getAuthorAge(nameContainer);
 
-		return new SeleniumAdvice(adviceElement, type, new AskPeopleAuthor(authorName, authorType));
+		return new SeleniumAdvice(adviceElement, type, new AskPeopleAuthor(authorName, authorAge, authorType));
 	}
 
 	public WebElement getElement() 
@@ -63,8 +64,6 @@ public class SeleniumAdvice extends AbstractAdvice
 	{
 		return isEnabled(getDislikeButton(this.element));
 	}
-
-
 
 	@Override
 	public List<AskPeopleAdvice> getResponses() 
@@ -100,6 +99,28 @@ public class SeleniumAdvice extends AbstractAdvice
 			return ORIGINAL_POSTER;
 
 		return GUEST;
+	}
+
+	private static int getAuthorAge(WebElement nameContainer)
+	{
+		String fullName = nameContainer.getText();
+
+		//normal user
+		if(fullName.contains(","))
+			return AskPeopleAuthor.extractAge(fullName);
+
+		//go to the reputable user's profile
+		String userProfileURL = nameContainer.findElement(By.tagName("a")).getAttribute("href");
+		SeleniumClient.getDriver().get(userProfileURL);
+
+		//grab the age from the profile
+		fullName = SeleniumClient.getDriver().findElement(By.xpath("//div[@class='content pblock']/h1/a")).getText();
+		int age = AskPeopleAuthor.extractAge(fullName);
+
+		//go back
+		SeleniumClient.getDriver().navigate().back();
+
+		return age;
 	}
 
 	private static String getAuthorName(WebElement nameContainer, AskPeopleAuthor.Type authorType)

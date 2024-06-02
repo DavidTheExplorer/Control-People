@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.PageLoadStrategy.EAGER;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import dte.controlpeople.advice.SeleniumAdvice;
 import dte.controlpeople.author.AskPeopleAuthor;
@@ -47,6 +48,11 @@ public class SeleniumClient implements AskPeopleClient
 		return new AskPeopleQuestion(id, content, author, advices);
 	}
 
+	public static WebDriver getDriver()
+	{
+		return DRIVER;
+	}
+
 	private static ChromeOptions getEagerLoadingOption() 
 	{
 		ChromeOptions options = new ChromeOptions();
@@ -59,10 +65,16 @@ public class SeleniumClient implements AskPeopleClient
 	
 	private static List<AskPeopleAdvice> scrapeAdvices()
 	{
-		List<WebElement> adviceElements = DRIVER.findElements(By.xpath("//ul[@id='ul_advices']/li"));
+		//can't use findElements#stream because SeleniumAdvice#fromWebElement sometimes refreshes the page(causing StaleElementReferenceException)
+		int advicesAmount = DRIVER.findElements(By.xpath("//ul[@id='ul_advices']/li")).size();
 
-		return adviceElements.stream()
-				.map(SeleniumAdvice::fromWebElement)
+		return IntStream.rangeClosed(1, advicesAmount)
+				.mapToObj(i ->
+				{
+					WebElement adviceElement = DRIVER.findElement(By.xpath(String.format("//ul[@id='ul_advices']/li[%d]", i)));
+
+					return SeleniumAdvice.fromWebElement(adviceElement);
+				})
 				.collect(toList());
 	}
 
@@ -71,8 +83,9 @@ public class SeleniumClient implements AskPeopleClient
 		String nameLine = DRIVER.findElement(By.xpath(".//div[@id='div_question_content']/h2")).getText();
 		String nameWithAge = nameLine.split("\\|")[0];
 		String name = nameWithAge.split(" ")[0];
+		int age = Integer.parseInt(nameWithAge.split(" ")[2]);
 
-		return new AskPeopleAuthor(name, Type.ORIGINAL_POSTER);
+		return new AskPeopleAuthor(name, age, Type.ORIGINAL_POSTER);
 	}
 
 	private static boolean doesQuestionExist() 
