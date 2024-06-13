@@ -41,11 +41,12 @@ public class SeleniumClient implements AskPeopleClient
 			throw new AskPeopleException(String.format("Could not find a question with the id \"%s\"", id));
 
 		//scrape the question's data
+		String title = scrapeCurrentQuestionTitle();
 		String content = scrapeCurrentQuestionContent();
 		AskPeopleAuthor author = scrapeAuthor();
 		List<AskPeopleAdvice> advices = scrapeAdvices();
 
-		return new AskPeopleQuestion(id, content, author, advices);
+		return new AskPeopleQuestion(id, title, content, author, advices);
 	}
 
 	public static WebDriver getDriver()
@@ -92,6 +93,11 @@ public class SeleniumClient implements AskPeopleClient
 	{
 		//for some reason, this div appears both when the question is deleted, but also when the ID doesn't exist
 		return DRIVER.findElements(By.xpath(".//div[@id='div_deleted_question']")).isEmpty();
+	}
+
+	private static String scrapeCurrentQuestionTitle()
+	{
+		return DRIVER.findElement(By.xpath(".//div[@id='div_question_content']/h1[@id='h1_question_title']")).getText();
 	}
 
 	private static String scrapeCurrentQuestionContent()

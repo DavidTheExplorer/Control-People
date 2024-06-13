@@ -12,13 +12,14 @@ import dte.controlpeople.author.AskPeopleAuthor;
  */
 public class AskPeopleQuestion
 {
-	private final String id, content;
+	private final String id, title, content;
 	private final AskPeopleAuthor author;
 	private final List<AskPeopleAdvice> advices;
 	
-	public AskPeopleQuestion(String id, String content, AskPeopleAuthor author, List<AskPeopleAdvice> advices)
+	public AskPeopleQuestion(String id, String title, String content, AskPeopleAuthor author, List<AskPeopleAdvice> advices)
 	{
 		this.id = id;
+		this.title = title;
 		this.content = content;
 		this.author = author;
 		this.advices = advices;
@@ -32,6 +33,15 @@ public class AskPeopleQuestion
 	public String getID() 
 	{
 		return this.id;
+	}
+
+	/**
+	 * Returns the title of this question.
+	 * @return The title of this question.
+	 */
+	public String getTitle()
+	{
+		return this.title;
 	}
 
 	/**
